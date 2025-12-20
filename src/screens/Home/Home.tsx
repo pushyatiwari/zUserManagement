@@ -1,4 +1,8 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, {
+  useCallback,
+  useMemo,
+  useState,
+} from 'react';
 import {
   View,
   Text,
@@ -12,18 +16,24 @@ import type { Tab } from '../../constants/tabs';
 import { TABS } from '../../constants/tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { TabButton } from '../../components/TabButton/TabButton';
-import { homesStyles as styles } from './homsStyles';
+import { homesStyles as styles } from './homeStyles';
 import { useZellerUsers } from '../../hooks/useZellerUsers';
+import { Modal } from 'react-native';
+import { AddUserForm } from '../../components/AddUserForm/AddUserForm';
 
 export default function HomeScreen() {
   const [activeTab, setActiveTab] = useState<Tab>('All');
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchText, setSearchText] = useState('');
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+
+
   const { users, loading, error, reload } = useZellerUsers();
-  
   const filteredUsers = useMemo(() => {
     let data =
-      activeTab === 'All' ? users : users.filter(u => u.role.toLowerCase() === activeTab.toLowerCase());
+      activeTab === 'All'
+        ? users
+        : users.filter(u => u.role.toLowerCase() === activeTab.toLowerCase());
 
     if (!searchText.trim()) return data;
 
@@ -53,11 +63,9 @@ export default function HomeScreen() {
   }, []);
 
   return (
-    <View  style={styles.container}>
-      {/* Tabs  */}
+    <View style={styles.container}>
       <View testID="home-header" style={styles.tabContainer}>
         {isSearchOpen ? (
-          // 🔍 SEARCH INPUT
           <TextInput
             testID="search-input"
             value={searchText}
@@ -67,8 +75,8 @@ export default function HomeScreen() {
             style={styles.searchInput}
           />
         ) : (
-          // 🟦 TABS
           <View style={styles.tabs}>
+            {/* Tabs  */}
             {TABS.map(tab => (
               <TabButton
                 key={tab}
@@ -113,12 +121,24 @@ export default function HomeScreen() {
         style={styles.fab}
         activeOpacity={0.8}
         onPress={() => {
-          // TODO: navigate to AddUser screen
+          setIsAddModalOpen(true);
         }}
         accessibilityLabel="Add user"
       >
         <Text style={styles.fabPlus}>+</Text>
       </TouchableOpacity>
+
+      {/* Add User Form */}
+      <Modal
+        visible={isAddModalOpen}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setIsAddModalOpen(false)}
+      >
+        <View style={styles.addFormModalWrapper}>
+          <AddUserForm onClose={() => setIsAddModalOpen(false)} />
+        </View>
+      </Modal>
     </View>
   );
 }

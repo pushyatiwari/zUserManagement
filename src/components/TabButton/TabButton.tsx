@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { Tab } from '../../constants/tabs';
+import { TAB_WIDTH } from '../../screens/Home/homeStyles';
 
 export const TabButton = ({
   title,
@@ -17,9 +18,12 @@ export const TabButton = ({
       activeOpacity={0.8}
       accessibilityRole="button"
       accessibilityState={{ selected: active }}
-      style={[styles.tabBtn, active && styles.tabBtnActive]}
+      style={styles.tabBtn}
     >
-      <Text testID={title.toLowerCase() + '_id'} style={[styles.tabText, active && styles.tabTextActive]}>
+      <Text
+        testID={title.toLowerCase() + '_id'}
+        style={[styles.tabText, active && styles.tabTextActive]}
+      >
         {title}
       </Text>
     </TouchableOpacity>
@@ -28,21 +32,20 @@ export const TabButton = ({
 
 const styles = StyleSheet.create({
   tabBtn: {
+    width: TAB_WIDTH,
     paddingVertical: 8,
-    paddingHorizontal: 18,
+    alignItems: 'center',
+    justifyContent: 'center',
     borderRadius: 999,
-  },
-  tabBtnActive: {
-    backgroundColor: '#fff',
-    borderWidth: 1,
-    borderColor: '#2c6bed',
   },
 
   tabText: {
     color: '#444',
     fontWeight: '600',
   },
+
   tabTextActive: {
     color: '#2c6bed',
+    fontWeight: '700',
   },
 });

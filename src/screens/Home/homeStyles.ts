@@ -1,7 +1,7 @@
-
 /* ---------- Styles ---------- */
 
-import { StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native';
+export const TAB_WIDTH = 90;
 
 export const homesStyles = StyleSheet.create({
   container: {
@@ -17,6 +17,20 @@ export const homesStyles = StyleSheet.create({
     borderRadius: 999,
     padding: 4,
     marginRight: 12,
+    position: 'relative',
+    overflow: 'visible',
+  },
+  activeIndicator: {
+    position: 'absolute',
+    left: 4,
+    top: 4,
+    bottom: 4,
+    width: TAB_WIDTH,
+    backgroundColor: 'transparent',
+    borderRadius: 999,
+    borderWidth: 1.5,
+    borderColor: '#2c6bed',
+    zIndex: 1,
   },
 
   tabBtn: {
@@ -24,8 +38,9 @@ export const homesStyles = StyleSheet.create({
     paddingHorizontal: 18,
     borderRadius: 999,
   },
+
   tabBtnActive: {
-    backgroundColor: '#fff',
+    // backgroundColor: '#fff',
     borderWidth: 1,
     borderColor: '#2c6bed',
   },
@@ -131,9 +146,14 @@ export const homesStyles = StyleSheet.create({
     marginTop: -2,
   },
   errorText: {
-  color: '#d32f2f',
-  textAlign: 'center',
-  marginVertical: 8,
-  fontSize: 14,
-},
+    color: '#d32f2f',
+    textAlign: 'center',
+    marginVertical: 8,
+    fontSize: 14,
+  },
+  addFormModalWrapper: {
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: 'rgba(0,0,0,0.4)',
+  },
 });
