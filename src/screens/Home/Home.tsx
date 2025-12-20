@@ -1,14 +1,11 @@
-import React, {
-  useCallback,
-  useMemo,
-  useState,
-} from 'react';
+import React, { useCallback, useMemo, useRef, useEffect, useState } from 'react';
 import {
   View,
   Text,
   TouchableOpacity,
   FlatList,
   TextInput,
+  Animated,
 } from 'react-native';
 
 import type { User } from '../../types/user';
@@ -16,7 +13,7 @@ import type { Tab } from '../../constants/tabs';
 import { TABS } from '../../constants/tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { TabButton } from '../../components/TabButton/TabButton';
-import { homesStyles as styles } from './homeStyles';
+import { homesStyles as styles, TAB_WIDTH } from './homeStyles';
 import { useZellerUsers } from '../../hooks/useZellerUsers';
 import { Modal } from 'react-native';
 import { AddUserForm } from '../../components/AddUserForm/AddUserForm';
@@ -27,8 +24,24 @@ export default function HomeScreen() {
   const [searchText, setSearchText] = useState('');
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
+  const translateX = useRef(new Animated.Value(0)).current;
+
+  const activeIndex = useMemo(() => {
+    const idx = TABS.indexOf(activeTab);
+    return idx === -1 ? 0 : idx;
+  }, [activeTab]);
+
+  useEffect(() => {
+    Animated.spring(translateX, {
+      toValue: activeIndex * TAB_WIDTH,
+      useNativeDriver: true,
+      speed: 18,
+      bounciness: 6,
+    }).start();
+  }, [activeIndex, translateX]);
 
   const { users, loading, error, reload } = useZellerUsers();
+
   const filteredUsers = useMemo(() => {
     let data =
       activeTab === 'All'
@@ -76,7 +89,14 @@ export default function HomeScreen() {
           />
         ) : (
           <View style={styles.tabs}>
-            {/* Tabs  */}
+            <Animated.View
+              pointerEvents="none"
+              style={[
+                styles.activeIndicator,
+                { transform: [{ translateX }] },
+              ]}
+            />
+
             {TABS.map(tab => (
               <TabButton
                 key={tab}
@@ -107,7 +127,6 @@ export default function HomeScreen() {
 
       {error ? <Text style={styles.errorText}>{error}</Text> : null}
 
-      {/* User List */}
       <FlatList
         data={filteredUsers}
         keyExtractor={keyExtractor}
@@ -117,18 +136,16 @@ export default function HomeScreen() {
         ItemSeparatorComponent={Separator}
         contentContainerStyle={styles.listContent}
       />
+
       <TouchableOpacity
         style={styles.fab}
         activeOpacity={0.8}
-        onPress={() => {
-          setIsAddModalOpen(true);
-        }}
+        onPress={() => setIsAddModalOpen(true)}
         accessibilityLabel="Add user"
       >
         <Text style={styles.fabPlus}>+</Text>
       </TouchableOpacity>
 
-      {/* Add User Form */}
       <Modal
         visible={isAddModalOpen}
         transparent

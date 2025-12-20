@@ -10,27 +10,24 @@ export const homesStyles = StyleSheet.create({
     paddingTop: 50,
   },
   tabs: {
-    flex: 1,
     flexDirection: 'row',
-    justifyContent: 'space-between',
     backgroundColor: '#f2f2f2',
     borderRadius: 999,
     padding: 4,
     marginRight: 12,
     position: 'relative',
-    overflow: 'visible',
+    overflow: 'hidden',
   },
+
   activeIndicator: {
     position: 'absolute',
     left: 4,
     top: 4,
-    bottom: 4,
+    height: 36,
     width: TAB_WIDTH,
-    backgroundColor: 'transparent',
     borderRadius: 999,
     borderWidth: 1.5,
     borderColor: '#2c6bed',
-    zIndex: 1,
   },
 
   tabBtn: {
