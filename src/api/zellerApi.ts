@@ -1,5 +1,5 @@
-import awsconfig from "./aws-exports";
-import { LIST_ZELLER_CUSTOMERS } from "./queries";
+import awsconfig from './aws-exports';
+import { LIST_ZELLER_CUSTOMERS } from './queries';
 
 type ListZellerCustomersResponse = {
   data?: {
@@ -7,7 +7,7 @@ type ListZellerCustomersResponse = {
       items?: Array<{
         id: string;
         name: string;
-        role: "Admin" | "Manager";
+        role: 'Admin' | 'Manager';
         email?: string | null;
       }> | null;
     } | null;
@@ -17,10 +17,10 @@ type ListZellerCustomersResponse = {
 
 export async function fetchZellerCustomers() {
   const res = await fetch(awsconfig.aws_appsync_graphqlEndpoint, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
-      "x-api-key": awsconfig.aws_appsync_apiKey, 
+      'Content-Type': 'application/json',
+      'x-api-key': awsconfig.aws_appsync_apiKey,
     },
     body: JSON.stringify({
       query: LIST_ZELLER_CUSTOMERS,

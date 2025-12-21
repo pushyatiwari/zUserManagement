@@ -3,14 +3,14 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Field } from '../Field/Field';
 import { RoleButton } from '../RoleButton/RoleButton';
 import { useUserForm } from '../../hooks/useUserForm';
-
-export type Role = 'Admin' | 'Manager';
+import { NewDbUserInput } from '../../db/zellerDb';
 
 type Props = {
   onClose: () => void;
+  onSubmit: (values: NewDbUserInput) => Promise<void> | void;
 };
 
-export const AddUserForm = ({ onClose }: Props) => {
+export const AddUserForm = ({ onClose, onSubmit }: Props) => {
   const { values, errors, setField, validate } = useUserForm({
     firstName: '',
     lastName: '',
@@ -18,11 +18,17 @@ export const AddUserForm = ({ onClose }: Props) => {
     role: 'Admin',
   });
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     console.log('values', values);
     console.log('errors', errors);
     if (!validate()) return;
-    onClose();
+
+    await onSubmit({
+      firstName: values.firstName,
+      lastName: values.lastName,
+      email: values.email?.trim() ? values.email.trim() : null,
+      role: values.role,
+    });
   };
 
   return (

@@ -16,8 +16,7 @@ export const TabButton = ({
     <TouchableOpacity
       onPress={onPress}
       activeOpacity={0.8}
-      accessibilityRole="button"
-      accessibilityState={{ selected: active }}
+      testID={title.toLowerCase() + "_id"}
       style={styles.tabBtn}
     >
       <Text style={[styles.tabText, active && styles.tabTextActive]}>
@@ -27,15 +26,14 @@ export const TabButton = ({
   );
 };
 
-
 const styles = StyleSheet.create({
   tabBtn: {
-  width: TAB_WIDTH,              
-  height: 36,
-  borderRadius: 999,
-  alignItems: 'center',
-  justifyContent: 'center',
-},
+    width: TAB_WIDTH,
+    height: 36,
+    borderRadius: 999,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   tabText: {
     color: '#444',
     fontWeight: '600',

@@ -1,10 +1,9 @@
 import React from 'react';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
-import { Role } from '../AddUserForm/AddUserForm';
-
+import { UserRole } from '../../types/user';
 
 type Props = {
-  title: Role;
+  title: UserRole;
   active: boolean;
   onPress: () => void;
 };
@@ -13,19 +12,9 @@ export const RoleButton = ({ title, active, onPress }: Props) => {
   return (
     <TouchableOpacity
       onPress={onPress}
-      style={[
-        styles.button,
-        active && styles.active,
-      ]}
+      style={[styles.button, active && styles.active]}
     >
-      <Text
-        style={[
-          styles.text,
-          active && styles.textActive,
-        ]}
-      >
-        {title}
-      </Text>
+      <Text style={[styles.text, active && styles.textActive]}>{title}</Text>
     </TouchableOpacity>
   );
 };

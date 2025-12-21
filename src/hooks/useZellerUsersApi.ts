@@ -1,8 +1,9 @@
-import { useCallback, useEffect, useState } from "react";
-import type { User } from "../types/user";
-import { fetchZellerCustomers } from "../api/zellerApi";
+// GraphQL, fetches when App loads
+import { useCallback, useEffect, useState } from 'react';
+import type { User } from '../types/user';
+import { fetchZellerCustomers } from '../api/zellerApi';
 
-export function useZellerUsers() {
+export function useZellerUsersApi() {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -14,7 +15,7 @@ export function useZellerUsers() {
       const items = await fetchZellerCustomers();
       setUsers(items);
     } catch {
-      setError("Failed to load users");
+      setError('Failed to load users');
     } finally {
       setLoading(false);
     }

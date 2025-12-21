@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { Role } from '../components/AddUserForm/AddUserForm';
+import { UserRole } from '../types/user';
 
-type UserForm = {
+export type UserForm = {
   firstName: string;
   lastName: string;
   email?: string;
-  role: Role;
+  role: UserRole;
 };
 
 type Errors = Partial<Record<keyof UserForm, string>>;

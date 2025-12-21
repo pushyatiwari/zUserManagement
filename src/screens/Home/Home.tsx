@@ -1,4 +1,10 @@
-import React, { useCallback, useMemo, useRef, useEffect, useState } from 'react';
+import React, {
+  useCallback,
+  useMemo,
+  useRef,
+  useEffect,
+  useState,
+} from 'react';
 import {
   View,
   Text,
@@ -14,9 +20,10 @@ import { TABS } from '../../constants/tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { TabButton } from '../../components/TabButton/TabButton';
 import { homesStyles as styles, TAB_WIDTH } from './homeStyles';
-import { useZellerUsers } from '../../hooks/useZellerUsers';
+import { useZellerUsersDb } from '../../hooks/useZellerUsersDb';
 import { Modal } from 'react-native';
 import { AddUserForm } from '../../components/AddUserForm/AddUserForm';
+import { NewDbUserInput } from '../../db/zellerDb';
 
 export default function HomeScreen() {
   const [activeTab, setActiveTab] = useState<Tab>('All');
@@ -40,7 +47,7 @@ export default function HomeScreen() {
     }).start();
   }, [activeIndex, translateX]);
 
-  const { users, loading, error, reload } = useZellerUsers();
+  const { users, loading, error, reload, addUser } = useZellerUsersDb();
 
   const filteredUsers = useMemo(() => {
     let data =
@@ -56,6 +63,11 @@ export default function HomeScreen() {
   }, [users, activeTab, searchText]);
 
   const keyExtractor = useCallback((item: User) => item.id, []);
+
+  const addUserHelper = async (values: NewDbUserInput) => {
+    await addUser(values);
+    setIsAddModalOpen(false);
+  };
 
   const renderItem = useCallback(({ item }: { item: User }) => {
     const firstLetter = item.name.trim()[0]?.toUpperCase() ?? '?';
@@ -91,10 +103,7 @@ export default function HomeScreen() {
           <View style={styles.tabs}>
             <Animated.View
               pointerEvents="none"
-              style={[
-                styles.activeIndicator,
-                { transform: [{ translateX }] },
-              ]}
+              style={[styles.activeIndicator, { transform: [{ translateX }] }]}
             />
 
             {TABS.map(tab => (
@@ -153,7 +162,10 @@ export default function HomeScreen() {
         onRequestClose={() => setIsAddModalOpen(false)}
       >
         <View style={styles.addFormModalWrapper}>
-          <AddUserForm onClose={() => setIsAddModalOpen(false)} />
+          <AddUserForm
+            onClose={() => setIsAddModalOpen(false)}
+            onSubmit={addUserHelper}
+          />
         </View>
       </Modal>
     </View>

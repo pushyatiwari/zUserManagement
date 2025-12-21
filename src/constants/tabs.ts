@@ -1,5 +1,5 @@
-import type { UserRole } from "../types/user";
+import type { UserRole } from '../types/user';
 
-export type Tab = "All" | UserRole;
+export type Tab = 'All' | UserRole;
 
-export const TABS: Tab[] = ["All", "Admin", "Manager"];
+export const TABS: Tab[] = ['All', 'Admin', 'Manager'];

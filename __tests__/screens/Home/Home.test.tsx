@@ -1,17 +1,17 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
 import HomeScreen from '../../../src/screens/Home/Home';
-import { useZellerUsers } from '../../../src/hooks/useZellerUsers';
+import { useZellerUsersDb } from '../../../src/hooks/useZellerUsersDb';
 
-jest.mock('../../../src/hooks/useZellerUsers', () => ({
-  useZellerUsers: jest.fn(),
+jest.mock('../../../src/hooks/useZellerUsersDb', () => ({
+  useZellerUsersDb: jest.fn(),
 }));
 
 const mockUsers = [
   { id: '1', name: 'Barbara Streider', role: 'Admin' },
   { id: '2', name: 'Brad Herman', role: 'Manager' },
   { id: '3', name: 'Camille Cummerata', role: 'Manager' },
-  { id: '3', name: '', role: 'Manager' },
+  { id: '4', name: '', role: 'Manager' },
 ];
 
 type MockHookOptions = {
@@ -27,7 +27,7 @@ function mockUsersHook({
   error = null,
   reload = jest.fn(),
 }: MockHookOptions = {}) {
-  (useZellerUsers as jest.Mock).mockReturnValue({
+  (useZellerUsersDb as jest.Mock).mockReturnValue({
     users,
     loading,
     error,
