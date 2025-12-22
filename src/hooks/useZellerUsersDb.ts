@@ -61,8 +61,6 @@ export function useZellerUsersDb() {
   const readFromDB = useCallback(async () => {
     const dbUsers = await fetchUsersFromDB();
     setUsers(dbToUiUsers(dbUsers));
-    console.log('(dbToUiUsers(dbUsers):::', dbToUiUsers(dbUsers));
-
     return dbUsers.length;
   }, []);
 
@@ -118,8 +116,7 @@ export function useZellerUsersDb() {
           lastName: input.lastName.trim(),
           email: input.email?.trim() ? input.email.trim() : null,
           role: input.role,
-        };
-
+        }; 
         await insertUser(newUser);
         await readFromDB();
       } catch (e: any) {

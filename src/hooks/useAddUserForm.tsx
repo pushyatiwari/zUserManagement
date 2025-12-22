@@ -10,7 +10,7 @@ export type UserForm = {
 
 type Errors = Partial<Record<keyof UserForm, string>>;
 
-export function useUserForm(initialValues: UserForm) {
+export function useAddUserForm(initialValues: UserForm) {
   const [values, setValues] = useState<UserForm>(initialValues);
   const [errors, setErrors] = useState<Errors>({});
 

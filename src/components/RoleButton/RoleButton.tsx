@@ -6,12 +6,14 @@ type Props = {
   title: UserRole;
   active: boolean;
   onPress: () => void;
+  testId?: string;
 };
 
-export const RoleButton = ({ title, active, onPress }: Props) => {
+export const RoleButton = ({ title, active, onPress, testId }: Props) => {
   return (
     <TouchableOpacity
       onPress={onPress}
+      testID={testId}
       style={[styles.button, active && styles.active]}
     >
       <Text style={[styles.text, active && styles.textActive]}>{title}</Text>

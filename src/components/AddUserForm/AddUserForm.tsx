@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Field } from '../Field/Field';
 import { RoleButton } from '../RoleButton/RoleButton';
-import { useUserForm } from '../../hooks/useUserForm';
+import { useAddUserForm } from '../../hooks/useAddUserForm';
 import { NewDbUserInput } from '../../db/zellerDb';
 
 type Props = {
@@ -11,7 +11,7 @@ type Props = {
 };
 
 export const AddUserForm = ({ onClose, onSubmit }: Props) => {
-  const { values, errors, setField, validate } = useUserForm({
+  const { values, errors, setField, validate } = useAddUserForm({
     firstName: '',
     lastName: '',
     email: '',
@@ -19,10 +19,7 @@ export const AddUserForm = ({ onClose, onSubmit }: Props) => {
   });
 
   const handleSubmit = async () => {
-    console.log('values', values);
-    console.log('errors', errors);
     if (!validate()) return;
-
     await onSubmit({
       firstName: values.firstName,
       lastName: values.lastName,
@@ -41,6 +38,7 @@ export const AddUserForm = ({ onClose, onSubmit }: Props) => {
 
       <Field
         label="First Name"
+        testId="first_name"
         value={values.firstName}
         onChangeText={v => setField('firstName', v)}
         placeholder="First Name"
@@ -49,6 +47,7 @@ export const AddUserForm = ({ onClose, onSubmit }: Props) => {
 
       <Field
         label="Last Name"
+        testId="last_name"
         value={values.lastName}
         onChangeText={v => setField('lastName', v)}
         placeholder="Last Name"
@@ -57,6 +56,7 @@ export const AddUserForm = ({ onClose, onSubmit }: Props) => {
 
       <Field
         label="Email"
+        testId="email"
         value={values.email ?? ''}
         onChangeText={v => setField('email', v)}
         placeholder="Email"
@@ -69,16 +69,18 @@ export const AddUserForm = ({ onClose, onSubmit }: Props) => {
         <RoleButton
           title="Admin"
           active={values.role === 'Admin'}
+          testId="admin"
           onPress={() => setField('role', 'Admin')}
         />
         <RoleButton
           title="Manager"
+          testId="manager"
           active={values.role === 'Manager'}
           onPress={() => setField('role', 'Manager')}
         />
       </View>
 
-      <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+      <TouchableOpacity style={styles.button} testID='create_user' onPress={handleSubmit}>
         <Text style={styles.buttonText}>Create User</Text>
       </TouchableOpacity>
     </View>
@@ -91,29 +93,24 @@ export const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: '#fff',
   },
-
   close: {
     width: 30,
   },
-
   closeText: {
     fontSize: 28,
     color: '#2c6bed',
   },
-
   title: {
     fontSize: 26,
     fontWeight: '700',
     marginVertical: 20,
   },
-
   section: {
     fontSize: 18,
     fontWeight: '600',
     marginTop: 10,
     marginBottom: 12,
   },
-
   roleContainer: {
     flexDirection: 'row',
     backgroundColor: '#f2f2f2',
@@ -121,7 +118,6 @@ export const styles = StyleSheet.create({
     padding: 4,
     marginBottom: 30,
   },
-
   button: {
     height: 50,
     backgroundColor: '#2c6bed',
@@ -129,7 +125,6 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-
   buttonText: {
     color: '#fff',
     fontSize: 18,

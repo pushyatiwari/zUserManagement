@@ -102,7 +102,6 @@ export default function HomeScreen() {
         ) : (
           <View style={styles.tabs}>
             <Animated.View
-              pointerEvents="none"
               style={[styles.activeIndicator, { transform: [{ translateX }] }]}
             />
 
@@ -124,7 +123,6 @@ export default function HomeScreen() {
             setIsSearchOpen(prev => !prev);
             setSearchText('');
           }}
-          accessibilityLabel="Search users"
         >
           <Icon
             name={isSearchOpen ? 'close' : 'search'}
@@ -149,8 +147,8 @@ export default function HomeScreen() {
       <TouchableOpacity
         style={styles.fab}
         activeOpacity={0.8}
+        testID='add_user_btn'
         onPress={() => setIsAddModalOpen(true)}
-        accessibilityLabel="Add user"
       >
         <Text style={styles.fabPlus}>+</Text>
       </TouchableOpacity>

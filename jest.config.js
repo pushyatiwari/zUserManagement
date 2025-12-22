@@ -7,4 +7,8 @@ module.exports = {
     '!src/**/__mocks__/**',
     '!src/**/index.{ts,tsx}',
   ],
+   testPathIgnorePatterns: [
+    '/node_modules/',
+    '/__mocks__/',
+  ],
 };

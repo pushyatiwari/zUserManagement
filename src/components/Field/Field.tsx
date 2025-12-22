@@ -7,6 +7,7 @@ type Props = {
   onChangeText: (v: string) => void;
   placeholder: string;
   error?: string;
+  testId?: string
 };
 
 export const Field = ({
@@ -15,11 +16,13 @@ export const Field = ({
   onChangeText,
   placeholder,
   error,
+  testId,
 }: Props) => {
   return (
     <View style={styles.container}>
       <Text style={styles.label}>{label}</Text>
       <TextInput
+        testID={testId}
         value={value}
         onChangeText={onChangeText}
         placeholder={placeholder}

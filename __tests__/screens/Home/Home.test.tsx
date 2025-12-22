@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { act } from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
 import HomeScreen from '../../../src/screens/Home/Home';
 import { useZellerUsersDb } from '../../../src/hooks/useZellerUsersDb';
@@ -19,6 +19,7 @@ type MockHookOptions = {
   loading?: boolean;
   error?: string | null;
   reload?: jest.Mock;
+  addUser?: jest.Mock;
 };
 
 function mockUsersHook({
@@ -26,12 +27,14 @@ function mockUsersHook({
   loading = false,
   error = null,
   reload = jest.fn(),
+  addUser = jest.fn(),
 }: MockHookOptions = {}) {
   (useZellerUsersDb as jest.Mock).mockReturnValue({
     users,
     loading,
     error,
     reload,
+    addUser,
   });
 }
 
@@ -39,7 +42,7 @@ describe('HomeScreen', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
-  it('renders all tabs', () => {
+  it('should be able to render all tabs', () => {
     mockUsersHook();
     const { getByTestId } = render(<HomeScreen />);
     expect(getByTestId('all_id')).toBeTruthy();
@@ -47,7 +50,7 @@ describe('HomeScreen', () => {
     expect(getByTestId('manager_id')).toBeTruthy();
   });
 
-  it('renders user names from hook', () => {
+  it('should be able to render user names from hook', () => {
     mockUsersHook();
     const { getByText } = render(<HomeScreen />);
     expect(getByText('Barbara Streider')).toBeTruthy();
@@ -61,7 +64,7 @@ describe('HomeScreen', () => {
     expect(getByText('Failed to load users')).toBeTruthy();
   });
 
-  it('filters users when Admin tab is clicked', () => {
+  it('should be able to filter users when Admin tab is clicked', () => {
     mockUsersHook();
     const { getByTestId, getByText, queryByText } = render(<HomeScreen />);
     fireEvent.press(getByTestId('admin_id'));
@@ -71,7 +74,7 @@ describe('HomeScreen', () => {
     expect(queryByText('Camille Cummerata')).toBeNull();
   });
 
-  it('filters users when Manager tab is clicked', () => {
+  it('should be able to filter users when Manager tab is clicked', () => {
     mockUsersHook();
     const { getByTestId, getByText, queryByText } = render(<HomeScreen />);
     fireEvent.press(getByTestId('manager_id'));
@@ -81,7 +84,7 @@ describe('HomeScreen', () => {
     expect(queryByText('Barbara Streider')).toBeNull();
   });
 
-  it('filters users by search text', () => {
+  it('should be able to filter users by search text', () => {
     mockUsersHook();
     const { getByTestId, getByText, queryByText } = render(<HomeScreen />);
     fireEvent.press(getByTestId('search-button'));
@@ -90,5 +93,17 @@ describe('HomeScreen', () => {
     expect(getByText('Brad Herman')).toBeTruthy();
     expect(queryByText('Barbara Streider')).toBeNull();
     expect(queryByText('Camille Cummerata')).toBeNull();
+  });
+  it('should be able to render add user form', async () => {
+    const addUserMock = jest.fn();
+    mockUsersHook({ addUser: addUserMock });
+    const { getByTestId } = render(<HomeScreen />);
+    fireEvent.press(getByTestId('add_user_btn'));
+    fireEvent.changeText(getByTestId('first_name'), 'test');
+    fireEvent.changeText(getByTestId('last_name'), 'user');
+    await act(async () => {
+      fireEvent.press(getByTestId('create_user'));
+    });
+    expect(addUserMock).toHaveBeenCalledTimes(1);
   });
 });
