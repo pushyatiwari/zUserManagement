@@ -33,6 +33,7 @@ export async function getDB() {
   return dbInstance;
 }
 
+// sets up db and creates table if not exists
 export async function initDB() {
   const db = await getDB();
 

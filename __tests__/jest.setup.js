@@ -1,5 +1,7 @@
 jest.mock('react-native/Libraries/Animated/AnimatedImplementation', () => {
-  const Actual = jest.requireActual('react-native/Libraries/Animated/AnimatedImplementation');
+  const Actual = jest.requireActual(
+    'react-native/Libraries/Animated/AnimatedImplementation',
+  );
 
   function Value(this: any, v: any) {
     this._value = v;

@@ -1,5 +1,5 @@
 const executeSql = jest.fn();
-const transaction = jest.fn((cb) => cb({ executeSql }));
+const transaction = jest.fn(cb => cb({ executeSql }));
 
 const mockDb = {
   executeSql,

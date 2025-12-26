@@ -16,7 +16,7 @@ export const TabButton = ({
     <TouchableOpacity
       onPress={onPress}
       activeOpacity={0.8}
-      testID={title.toLowerCase() + "_id"}
+      testID={title.toLowerCase() + '_id'}
       style={styles.tabBtn}
     >
       <Text style={[styles.tabText, active && styles.tabTextActive]}>

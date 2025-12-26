@@ -1,5 +1,4 @@
 import { renderHook, act, waitFor } from '@testing-library/react-native';
-
 import {
   initDB,
   saveUsers,
@@ -18,6 +17,9 @@ jest.mock('../../src/db/zellerDb', () => ({
   saveUsers: jest.fn(),
   fetchUsersFromDB: jest.fn(),
   insertUser: jest.fn(),
+}));
+jest.mock('uuid', () => ({
+  v4: () => 'uuid_1',
 }));
 
 describe('useZellerUsersDb', () => {
@@ -82,14 +84,11 @@ describe('useZellerUsersDb', () => {
   });
 
   it('addUser inserts trimmed user and then reads from DB', async () => {
-    const nowSpy = jest.spyOn(Date, 'now').mockReturnValue(123);
-    const randSpy = jest.spyOn(Math, 'random').mockReturnValue(0.5);
-
     (initDB as jest.Mock).mockResolvedValue(undefined);
     (insertUser as jest.Mock).mockResolvedValue(undefined);
     (fetchUsersFromDB as jest.Mock).mockResolvedValue([
       {
-        id: 'local_123_8',
+        id: 'uuid_1',
         firstName: 'Test',
         lastName: 'User',
         email: null,
@@ -118,15 +117,12 @@ describe('useZellerUsersDb', () => {
     expect(inserted.lastName).toBe('User');
     expect(inserted.email).toBeNull();
     expect(inserted.role).toBe('Admin');
-    expect(inserted.id).toBe('local_123_8');
+    expect(inserted.id).toBe('uuid_1');
 
     expect(fetchUsersFromDB).toHaveBeenCalled();
     expect(result.current.users).toEqual([
-      { id: 'local_123_8', name: 'Test User', role: 'Admin', email: undefined },
+      { id: 'uuid_1', name: 'Test User', role: 'Admin', email: undefined },
     ]);
-
-    nowSpy.mockRestore();
-    randSpy.mockRestore();
   });
 
   it('bootstrap sets error when initDB fails', async () => {
@@ -139,7 +135,8 @@ describe('useZellerUsersDb', () => {
     expect(result.current.error).toBe('db error');
     expect(result.current.users).toEqual([]);
   });
-    it('reload sets error when API fails', async () => {
+
+  it('reload sets error when API fails', async () => {
     (fetchUsersFromDB as jest.Mock).mockResolvedValue([]);
     (fetchZellerCustomers as jest.Mock).mockRejectedValue(
       new Error('api error'),

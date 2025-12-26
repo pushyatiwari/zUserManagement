@@ -43,7 +43,9 @@ jest.mock('react-native/Libraries/Lists/VirtualizedList', () => {
   const VirtualizedList = ({ data = [], renderItem }: any) => (
     <View>
       {data.map((item: any, index: number) => (
-        <View key={item?.id ?? String(index)}>{renderItem({ item, index })}</View>
+        <View key={item?.id ?? String(index)}>
+          {renderItem({ item, index })}
+        </View>
       ))}
     </View>
   );

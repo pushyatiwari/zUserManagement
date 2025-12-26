@@ -18,7 +18,7 @@ export const AddUserForm = ({ onClose, onSubmit }: Props) => {
     role: 'Admin',
   });
 
-  const handleSubmit = async () => {    
+  const handleSubmit = async () => {
     if (!validate()) return;
     await onSubmit({
       firstName: values.firstName,

@@ -35,6 +35,7 @@ export default function HomeScreen() {
 
   const pagerRef = useRef<PagerView>(null);
 
+  // Animated values used to drive the tab indicator position during pager scroll
   const position = useRef(new Animated.Value(0)).current;
   const offset = useRef(new Animated.Value(0)).current;
   const progress = Animated.add(position, offset);
@@ -53,7 +54,8 @@ export default function HomeScreen() {
 
       const q = searchText.trim().toLowerCase();
       if (!q) return data;
-      // search will filter across all users
+      // When a search query is present, ignore the selected tab
+      // and filter users across all roles by name
       return users.filter(u => u.name.toLowerCase().includes(q));
     },
     [users, searchText],

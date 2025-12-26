@@ -7,7 +7,7 @@ type Props = {
   onChangeText: (v: string) => void;
   placeholder: string;
   error?: string;
-  testId?: string
+  testId?: string;
 };
 
 export const Field = ({

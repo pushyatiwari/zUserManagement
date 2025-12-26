@@ -40,7 +40,7 @@ export const homesStyles = StyleSheet.create({
   tabContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent:"center",
+    justifyContent: 'center',
     paddingHorizontal: 16,
     marginBottom: 10,
     marginTop: 50,
@@ -141,7 +141,7 @@ export const homesStyles = StyleSheet.create({
   addFormModalWrapper: {
     flex: 1,
     justifyContent: 'center',
-    marginTop:30,
+    marginTop: 30,
     backgroundColor: 'rgba(0,0,0,0.4)',
   },
 });

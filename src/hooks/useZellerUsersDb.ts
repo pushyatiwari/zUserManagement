@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
 import type { User, UserRole } from '../types/user';
 import { fetchZellerCustomers } from '../api/zellerApi';
+import { v4 as uuidv4 } from 'uuid';
+
 import {
   initDB,
   saveUsers,
@@ -48,9 +50,6 @@ function dbToUiUsers(dbUsers: DbUser[]): User[] {
     email: u.email ?? undefined,
   }));
 }
-function createId() {
-  return `local_${Date.now()}_${Math.random().toString(16).slice(2)}`;
-}
 
 // Hook
 export function useZellerUsersDb() {
@@ -70,6 +69,10 @@ export function useZellerUsersDb() {
     await saveUsers(dbUsers);
   }, []);
 
+  // Acts as an initialization entry point:
+  // 1. Initializes the database
+  // 2. Reads users from local DB
+  // 3. If DB is empty, fetches from API and persists to DB
   const bootstrap = useCallback(async () => {
     setLoading(true);
     setError(null);
@@ -89,6 +92,8 @@ export function useZellerUsersDb() {
     }
   }, [readFromDB, syncFromApi]);
 
+  // Reloads users by fetching the latest data from the API
+  // and persisting it to the local database
   const reload = useCallback(async () => {
     setLoading(true);
     setError(null);
@@ -111,12 +116,12 @@ export function useZellerUsersDb() {
       try {
         await initDB();
         const newUser: DbUser = {
-          id: createId(),
+          id: uuidv4(),
           firstName: input.firstName.trim(),
           lastName: input.lastName.trim(),
           email: input.email?.trim() ? input.email.trim() : null,
           role: input.role,
-        }; 
+        };
         await insertUser(newUser);
         await readFromDB();
       } catch (e: any) {

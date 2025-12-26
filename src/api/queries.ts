@@ -1,3 +1,4 @@
+// graphql query
 export const LIST_ZELLER_CUSTOMERS = `
   query listZellerCustomersQuery {
     listZellerCustomers {
