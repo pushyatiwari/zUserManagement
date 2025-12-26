@@ -40,7 +40,16 @@ exports[`AddUserForm (no mocking useUserForm) should match snapshot 1`] = `
     onStartShouldSetResponder={[Function]}
     style={
       {
-        "opacity": 1,
+        "opacity": Value {
+          "_value": 1,
+          "addListener": [MockFunction],
+          "interpolate": [MockFunction],
+          "removeAllListeners": [MockFunction],
+          "removeListener": [MockFunction],
+          "resetAnimation": [MockFunction],
+          "setValue": [MockFunction],
+          "stopAnimation": [MockFunction],
+        },
         "width": 30,
       }
     }
@@ -231,7 +240,16 @@ exports[`AddUserForm (no mocking useUserForm) should match snapshot 1`] = `
           "borderRadius": 20,
           "borderWidth": 1,
           "flex": 1,
-          "opacity": 1,
+          "opacity": Value {
+            "_value": 1,
+            "addListener": [MockFunction],
+            "interpolate": [MockFunction],
+            "removeAllListeners": [MockFunction],
+            "removeListener": [MockFunction],
+            "resetAnimation": [MockFunction],
+            "setValue": [MockFunction],
+            "stopAnimation": [MockFunction],
+          },
           "paddingVertical": 10,
         }
       }
@@ -286,7 +304,16 @@ exports[`AddUserForm (no mocking useUserForm) should match snapshot 1`] = `
           "alignItems": "center",
           "borderRadius": 20,
           "flex": 1,
-          "opacity": 1,
+          "opacity": Value {
+            "_value": 1,
+            "addListener": [MockFunction],
+            "interpolate": [MockFunction],
+            "removeAllListeners": [MockFunction],
+            "removeListener": [MockFunction],
+            "resetAnimation": [MockFunction],
+            "setValue": [MockFunction],
+            "stopAnimation": [MockFunction],
+          },
           "paddingVertical": 10,
         }
       }
@@ -342,7 +369,16 @@ exports[`AddUserForm (no mocking useUserForm) should match snapshot 1`] = `
         "borderRadius": 25,
         "height": 50,
         "justifyContent": "center",
-        "opacity": 1,
+        "opacity": Value {
+          "_value": 1,
+          "addListener": [MockFunction],
+          "interpolate": [MockFunction],
+          "removeAllListeners": [MockFunction],
+          "removeListener": [MockFunction],
+          "resetAnimation": [MockFunction],
+          "setValue": [MockFunction],
+          "stopAnimation": [MockFunction],
+        },
       }
     }
     testID="create_user"

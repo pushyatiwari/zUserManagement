@@ -4,7 +4,7 @@ import { AddUserForm } from '../../../src/components/AddUserForm/AddUserForm';
 
 describe('AddUserForm (no mocking useUserForm)', () => {
   const onClose = jest.fn();
-  const onSubmit = jest.fn();
+  const onSubmit = jest.fn(values => values);
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -56,7 +56,6 @@ describe('AddUserForm (no mocking useUserForm)', () => {
     fireEvent.press(getByTestId('admin'));
     fireEvent.press(getByTestId('manager'));
 
-
     fireEvent.press(getByText('Create User'));
     expect(onSubmit).toHaveBeenCalledTimes(1);
     expect(onSubmit).toHaveBeenCalledWith({
@@ -65,5 +64,17 @@ describe('AddUserForm (no mocking useUserForm)', () => {
       email: null,
       role: 'Manager',
     });
+  });
+  it('does not submit when form has errors', () => {
+    const onSubmit = jest.fn(values => values);
+    const onClose = jest.fn();
+
+    const { getByTestId } = render(
+      <AddUserForm onClose={onClose} onSubmit={onSubmit} />,
+    );
+
+    fireEvent.press(getByTestId('create_user'));
+
+    expect(onSubmit).toHaveBeenCalledTimes(0);
   });
 });

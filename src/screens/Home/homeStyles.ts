@@ -16,7 +16,6 @@ export const homesStyles = StyleSheet.create({
     padding: 4,
     marginRight: 12,
     position: 'relative',
-    overflow: 'hidden',
   },
 
   activeIndicator: {
@@ -37,7 +36,6 @@ export const homesStyles = StyleSheet.create({
   },
 
   tabBtnActive: {
-    // backgroundColor: '#fff',
     borderWidth: 1,
     borderColor: '#2c6bed',
   },
@@ -45,8 +43,10 @@ export const homesStyles = StyleSheet.create({
   tabContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent:"center",
     paddingHorizontal: 16,
     marginBottom: 10,
+    marginTop: 50,
   },
 
   searchInput: {
@@ -151,6 +151,7 @@ export const homesStyles = StyleSheet.create({
   addFormModalWrapper: {
     flex: 1,
     justifyContent: 'center',
+    marginTop:30,
     backgroundColor: 'rgba(0,0,0,0.4)',
   },
 });

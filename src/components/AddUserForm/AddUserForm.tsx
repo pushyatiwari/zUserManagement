@@ -18,7 +18,7 @@ export const AddUserForm = ({ onClose, onSubmit }: Props) => {
     role: 'Admin',
   });
 
-  const handleSubmit = async () => {
+  const handleSubmit = async () => {    
     if (!validate()) return;
     await onSubmit({
       firstName: values.firstName,
@@ -80,7 +80,11 @@ export const AddUserForm = ({ onClose, onSubmit }: Props) => {
         />
       </View>
 
-      <TouchableOpacity style={styles.button} testID='create_user' onPress={handleSubmit}>
+      <TouchableOpacity
+        style={styles.button}
+        testID="create_user"
+        onPress={handleSubmit}
+      >
         <Text style={styles.buttonText}>Create User</Text>
       </TouchableOpacity>
     </View>

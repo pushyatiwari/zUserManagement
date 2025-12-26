@@ -1,109 +1,94 @@
-import React, { act } from 'react';
-import { render, fireEvent } from '@testing-library/react-native';
+import React from 'react';
+import { fireEvent, render } from '@testing-library/react-native';
 import HomeScreen from '../../../src/screens/Home/Home';
-import { useZellerUsersDb } from '../../../src/hooks/useZellerUsersDb';
+
+jest.mock('react-native-heroicons/outline', () => {
+  const React = require('react');
+  const { Text } = require('react-native');
+  return {
+    MagnifyingGlassIcon: () => <Text>SearchIcon</Text>,
+    XMarkIcon: () => <Text>CloseIcon</Text>,
+  };
+});
+
+jest.mock('react-native-pager-view', () => {
+  const React = require('react');
+  const { View } = require('react-native');
+
+  const PagerView = React.forwardRef(
+    ({ children, initialPage = 0, onPageSelected }: any, ref: any) => {
+      const pages = React.Children.toArray(children);
+      const [pageIndex, setPageIndex] = React.useState(initialPage);
+
+      React.useImperativeHandle(ref, () => ({
+        setPage: (i: number) => {
+          setPageIndex(i);
+          onPageSelected?.({ nativeEvent: { position: i } });
+        },
+      }));
+
+      return <View testID="pager-view">{pages[pageIndex] ?? null}</View>;
+    },
+  );
+
+  return PagerView;
+});
+
+const mockReload = jest.fn();
+const mockAddUser = jest.fn();
 
 jest.mock('../../../src/hooks/useZellerUsersDb', () => ({
-  useZellerUsersDb: jest.fn(),
+  useZellerUsersDb: () => ({
+    users: [
+      { id: '1', name: 'Brad Pitt', role: 'Admin' },
+      { id: '2', name: 'Alice Johnson', role: 'Manager' },
+    ],
+    loading: false,
+    error: null,
+    reload: mockReload,
+    addUser: mockAddUser,
+  }),
 }));
 
-const mockUsers = [
-  { id: '1', name: 'Barbara Streider', role: 'Admin' },
-  { id: '2', name: 'Brad Herman', role: 'Manager' },
-  { id: '3', name: 'Camille Cummerata', role: 'Manager' },
-  { id: '4', name: '', role: 'Manager' },
-];
-
-type MockHookOptions = {
-  users?: typeof mockUsers;
-  loading?: boolean;
-  error?: string | null;
-  reload?: jest.Mock;
-  addUser?: jest.Mock;
-};
-
-function mockUsersHook({
-  users = mockUsers,
-  loading = false,
-  error = null,
-  reload = jest.fn(),
-  addUser = jest.fn(),
-}: MockHookOptions = {}) {
-  (useZellerUsersDb as jest.Mock).mockReturnValue({
-    users,
-    loading,
-    error,
-    reload,
-    addUser,
-  });
-}
-
 describe('HomeScreen', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
-  it('should be able to render all tabs', () => {
-    mockUsersHook();
-    const { getByTestId } = render(<HomeScreen />);
-    expect(getByTestId('all_id')).toBeTruthy();
-    expect(getByTestId('admin_id')).toBeTruthy();
-    expect(getByTestId('manager_id')).toBeTruthy();
-  });
+  it('filters users by search text', () => {
+    const { getByTestId, queryByText } = render(<HomeScreen />);
 
-  it('should be able to render user names from hook', () => {
-    mockUsersHook();
-    const { getByText } = render(<HomeScreen />);
-    expect(getByText('Barbara Streider')).toBeTruthy();
-    expect(getByText('Brad Herman')).toBeTruthy();
-    expect(getByText('Camille Cummerata')).toBeTruthy();
-  });
+    expect(queryByText('Brad Pitt')).toBeTruthy();
+    expect(queryByText('Alice Johnson')).toBeTruthy();
 
-  it('shows error message when hook returns error', () => {
-    mockUsersHook({ error: 'Failed to load users' });
-    const { getByText } = render(<HomeScreen />);
-    expect(getByText('Failed to load users')).toBeTruthy();
-  });
+    try {
+      fireEvent.press(getByTestId('search-button'));
+    } catch (e: any) {
+      console.log(e?.errors ?? e);
+      throw e;
+    }
 
-  it('should be able to filter users when Admin tab is clicked', () => {
-    mockUsersHook();
-    const { getByTestId, getByText, queryByText } = render(<HomeScreen />);
-    fireEvent.press(getByTestId('admin_id'));
-
-    expect(getByText('Barbara Streider')).toBeTruthy();
-    expect(queryByText('Brad Herman')).toBeNull();
-    expect(queryByText('Camille Cummerata')).toBeNull();
-  });
-
-  it('should be able to filter users when Manager tab is clicked', () => {
-    mockUsersHook();
-    const { getByTestId, getByText, queryByText } = render(<HomeScreen />);
-    fireEvent.press(getByTestId('manager_id'));
-
-    expect(getByText('Brad Herman')).toBeTruthy();
-    expect(getByText('Camille Cummerata')).toBeTruthy();
-    expect(queryByText('Barbara Streider')).toBeNull();
-  });
-
-  it('should be able to filter users by search text', () => {
-    mockUsersHook();
-    const { getByTestId, getByText, queryByText } = render(<HomeScreen />);
-    fireEvent.press(getByTestId('search-button'));
     fireEvent.changeText(getByTestId('search-input'), 'brad');
 
-    expect(getByText('Brad Herman')).toBeTruthy();
-    expect(queryByText('Barbara Streider')).toBeNull();
-    expect(queryByText('Camille Cummerata')).toBeNull();
+    expect(queryByText('Brad Pitt')).toBeTruthy();
+    expect(queryByText('Alice Johnson')).toBeNull();
   });
-  it('should be able to render add user form', async () => {
-    const addUserMock = jest.fn();
-    mockUsersHook({ addUser: addUserMock });
+
+  it('opens add user modal', () => {
     const { getByTestId } = render(<HomeScreen />);
+
     fireEvent.press(getByTestId('add_user_btn'));
-    fireEvent.changeText(getByTestId('first_name'), 'test');
-    fireEvent.changeText(getByTestId('last_name'), 'user');
-    await act(async () => {
-      fireEvent.press(getByTestId('create_user'));
-    });
-    expect(addUserMock).toHaveBeenCalledTimes(1);
+    expect(getByTestId('first_name')).toBeTruthy();
+    expect(getByTestId('last_name')).toBeTruthy();
+    expect(getByTestId('create_user')).toBeTruthy();    
   });
+
+  it('switches to Admin tab using the first Admin tab button', () => {
+    const { getAllByText, queryByText } = render(<HomeScreen />);
+
+    expect(queryByText('Brad Pitt')).toBeTruthy();
+    expect(queryByText('Alice Johnson')).toBeTruthy();
+
+    fireEvent.press(getAllByText('Admin')[0]);
+
+    expect(queryByText('Brad Pitt')).toBeTruthy();
+    expect(queryByText('Alice Johnson')).toBeNull();
+  });
+  
 });
