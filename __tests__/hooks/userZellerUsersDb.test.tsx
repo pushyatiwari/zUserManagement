@@ -81,49 +81,6 @@ describe('useZellerUsersDb', () => {
     ]);
   });
 
-  it('reload calls API sync and then reads from DB', async () => {
-    (initDB as jest.Mock).mockResolvedValue(undefined);
-    (fetchUsersFromDB as jest.Mock)
-      .mockResolvedValueOnce([
-        {
-          id: '1',
-          firstName: 'old',
-          lastName: 'user',
-          email: null,
-          role: 'Admin',
-        },
-      ])
-      .mockResolvedValueOnce([
-        {
-          id: '2',
-          firstName: 'new',
-          lastName: 'user',
-          email: null,
-          role: 'Admin',
-        },
-      ]);
-
-    (fetchZellerCustomers as jest.Mock).mockResolvedValue([
-      { id: '2', name: 'new user', email: null, role: 'Admin' },
-    ]);
-
-    const { result } = renderHook(() => useZellerUsersDb());
-
-    await waitFor(() => expect(result.current.loading).toBe(false));
-
-    await act(async () => {
-      await result.current.reload();
-    });
-
-    expect(fetchZellerCustomers).toHaveBeenCalledTimes(1);
-    expect(saveUsers).toHaveBeenCalledTimes(1);
-    expect(fetchUsersFromDB).toHaveBeenCalledTimes(2);
-    expect(result.current.users).toEqual([
-      { id: '2', name: 'new user', role: 'Admin', email: undefined },
-    ]);
-    expect(result.current.error).toBeNull();
-  });
-
   it('addUser inserts trimmed user and then reads from DB', async () => {
     const nowSpy = jest.spyOn(Date, 'now').mockReturnValue(123);
     const randSpy = jest.spyOn(Math, 'random').mockReturnValue(0.5);
@@ -181,21 +138,5 @@ describe('useZellerUsersDb', () => {
 
     expect(result.current.error).toBe('db error');
     expect(result.current.users).toEqual([]);
-  });
-  it('reload sets error when API fails', async () => {
-    (fetchUsersFromDB as jest.Mock).mockResolvedValue([]);
-    (fetchZellerCustomers as jest.Mock).mockRejectedValue(
-      new Error('api error'),
-    );
-
-    const { result } = renderHook(() => useZellerUsersDb());
-
-    await waitFor(() => expect(result.current.loading).toBe(false));
-
-    await act(async () => {
-      await result.current.reload();
-    });
-
-    expect(result.current.error).toBe('api error');
   });
 });

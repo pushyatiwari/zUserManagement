@@ -1,5 +1,3 @@
-/* ---------- Styles ---------- */
-
 import { StyleSheet } from 'react-native';
 export const TAB_WIDTH = 90;
 
@@ -7,7 +5,6 @@ export const homesStyles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    paddingTop: 50,
   },
   tabs: {
     flexDirection: 'row',
@@ -20,10 +17,10 @@ export const homesStyles = StyleSheet.create({
 
   activeIndicator: {
     position: 'absolute',
-    left: 4,
-    top: 4,
-    height: 36,
-    width: TAB_WIDTH,
+    left: 2,
+    top: 1,
+    height: 42,
+    width: TAB_WIDTH + 5,
     borderRadius: 999,
     borderWidth: 1.5,
     borderColor: '#2c6bed',
@@ -126,13 +123,6 @@ export const homesStyles = StyleSheet.create({
     backgroundColor: '#2c6bed',
     alignItems: 'center',
     justifyContent: 'center',
-
-    // shadow (iOS)
-    shadowColor: '#000',
-    shadowOpacity: 0.15,
-    shadowRadius: 8,
-    shadowOffset: { width: 0, height: 4 },
-    elevation: 6,
   },
 
   fabPlus: {

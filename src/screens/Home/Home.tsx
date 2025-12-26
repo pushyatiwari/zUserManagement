@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import {
   View,
   Text,
@@ -19,16 +19,19 @@ import { homesStyles as styles, TAB_WIDTH } from './homeStyles';
 import { useZellerUsersDb } from '../../hooks/useZellerUsersDb';
 import { AddUserForm } from '../../components/AddUserForm/AddUserForm';
 import type { NewDbUserInput } from '../../db/zellerDb';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const AnimatedPagerView = Animated.createAnimatedComponent(PagerView);
+const TOP_VISUAL_OFFSET = 20;
 
 export default function HomeScreen() {
   const [activeTab, setActiveTab] = useState<Tab>('All');
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchText, setSearchText] = useState('');
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+const insets = useSafeAreaInsets();
 
-  const { users, loading, error, reload, addUser } = useZellerUsersDb();
+  const { users, error, addUser, loading } = useZellerUsersDb();
 
   const pagerRef = useRef<PagerView>(null);
 
@@ -85,7 +88,7 @@ export default function HomeScreen() {
   }, []);
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { paddingTop: insets.top - TOP_VISUAL_OFFSET } ]}>
       <View testID="home-header" style={styles.tabContainer}>
         {isSearchOpen ? (
           <TextInput
@@ -152,7 +155,6 @@ export default function HomeScreen() {
               data={getUsersForTab(tab)}
               keyExtractor={keyExtractor}
               refreshing={loading}
-              onRefresh={reload}
               renderItem={renderItem}
               ItemSeparatorComponent={Separator}
               contentContainerStyle={styles.listContent}

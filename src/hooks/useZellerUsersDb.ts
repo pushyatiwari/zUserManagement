@@ -89,20 +89,6 @@ export function useZellerUsersDb() {
     }
   }, [readFromDB, syncFromApi]);
 
-  const reload = useCallback(async () => {
-    setLoading(true);
-    setError(null);
-
-    try {
-      await syncFromApi();
-      await readFromDB();
-    } catch (e: any) {
-      setError(e?.message ?? 'Failed to refresh users');
-    } finally {
-      setLoading(false);
-    }
-  }, [readFromDB, syncFromApi]);
-
   const addUser = useCallback(
     async (input: NewDbUserInput) => {
       setLoading(true);
@@ -133,5 +119,5 @@ export function useZellerUsersDb() {
     bootstrap();
   }, [bootstrap]);
 
-  return { users, loading, error, reload, addUser };
+  return { users, loading, error, addUser };
 }

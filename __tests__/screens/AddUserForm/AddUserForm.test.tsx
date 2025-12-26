@@ -34,7 +34,6 @@ describe('AddUserForm (no mocking useUserForm)', () => {
     fireEvent.changeText(getByTestId('first_name'), 'Shreya');
     fireEvent.changeText(getByTestId('last_name'), 'Test');
     fireEvent.changeText(getByTestId('email'), 'test@test.com');
-    // Submit
     fireEvent.press(getByText('Create User'));
     expect(onSubmit).toHaveBeenCalledTimes(1);
     expect(onSubmit).toHaveBeenCalledWith({
