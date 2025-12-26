@@ -139,4 +139,20 @@ describe('useZellerUsersDb', () => {
     expect(result.current.error).toBe('db error');
     expect(result.current.users).toEqual([]);
   });
+    it('reload sets error when API fails', async () => {
+    (fetchUsersFromDB as jest.Mock).mockResolvedValue([]);
+    (fetchZellerCustomers as jest.Mock).mockRejectedValue(
+      new Error('api error'),
+    );
+
+    const { result } = renderHook(() => useZellerUsersDb());
+
+    await waitFor(() => expect(result.current.loading).toBe(false));
+
+    await act(async () => {
+      await result.current.reload();
+    });
+
+    expect(result.current.error).toBe('api error');
+  });
 });

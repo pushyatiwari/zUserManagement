@@ -1,6 +1,8 @@
 import React from 'react';
-import { fireEvent, render } from '@testing-library/react-native';
+import { fireEvent, render, waitFor } from '@testing-library/react-native';
 import HomeScreen from '../../../src/screens/Home/Home';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { View } from 'react-native';
 
 jest.mock('react-native-heroicons/outline', () => {
   const React = require('react');
@@ -34,8 +36,35 @@ jest.mock('react-native-pager-view', () => {
   return PagerView;
 });
 
+jest.mock('react-native/Libraries/Lists/VirtualizedList', () => {
+  const React = require('react');
+  const { View } = require('react-native');
+
+  const VirtualizedList = ({ data = [], renderItem }: any) => (
+    <View>
+      {data.map((item: any, index: number) => (
+        <View key={item?.id ?? String(index)}>{renderItem({ item, index })}</View>
+      ))}
+    </View>
+  );
+
+  return { VirtualizedList };
+});
+
 const mockReload = jest.fn();
 const mockAddUser = jest.fn();
+
+const renderWithProviders = (ui: React.ReactElement) =>
+  render(
+    <SafeAreaProvider
+      initialMetrics={{
+        frame: { x: 0, y: 0, width: 390, height: 844 },
+        insets: { top: 44, bottom: 34, left: 0, right: 0 },
+      }}
+    >
+      <View style={{ flex: 1 }}>{ui}</View>
+    </SafeAreaProvider>,
+  );
 
 jest.mock('../../../src/hooks/useZellerUsersDb', () => ({
   useZellerUsersDb: () => ({
@@ -51,44 +80,52 @@ jest.mock('../../../src/hooks/useZellerUsersDb', () => ({
 }));
 
 describe('HomeScreen', () => {
-  it('filters users by search text', () => {
-    const { getByTestId, queryByText } = render(<HomeScreen />);
+  it('filters users by search text', async () => {
+    const { getByTestId, queryByText } = renderWithProviders(<HomeScreen />);
 
-    expect(queryByText('Brad Pitt')).toBeTruthy();
-    expect(queryByText('Alice Johnson')).toBeTruthy();
+    await waitFor(() => {
+      expect(queryByText('Brad Pitt')).not.toBeNull();
+      expect(queryByText('Alice Johnson')).not.toBeNull();
+    });
 
-    try {
-      fireEvent.press(getByTestId('search-button'));
-    } catch (e: any) {
-      console.log(e?.errors ?? e);
-      throw e;
-    }
-
+    fireEvent.press(getByTestId('search-button'));
     fireEvent.changeText(getByTestId('search-input'), 'brad');
 
-    expect(queryByText('Brad Pitt')).toBeTruthy();
-    expect(queryByText('Alice Johnson')).toBeNull();
+    await waitFor(() => {
+      expect(queryByText('Brad Pitt')).not.toBeNull();
+      expect(queryByText('Alice Johnson')).toBeNull();
+    });
   });
 
-  it('opens add user modal', () => {
-    const { getByTestId } = render(<HomeScreen />);
+  it('opens add user modal', async () => {
+    const { getByTestId, queryByTestId } = renderWithProviders(<HomeScreen />);
+
+    await waitFor(() => {
+      expect(queryByTestId('add_user_btn')).not.toBeNull();
+    });
 
     fireEvent.press(getByTestId('add_user_btn'));
-    expect(getByTestId('first_name')).toBeTruthy();
-    expect(getByTestId('last_name')).toBeTruthy();
-    expect(getByTestId('create_user')).toBeTruthy();    
+
+    await waitFor(() => {
+      expect(queryByTestId('first_name')).not.toBeNull();
+      expect(queryByTestId('last_name')).not.toBeNull();
+      expect(queryByTestId('create_user')).not.toBeNull();
+    });
   });
 
-  it('switches to Admin tab using the first Admin tab button', () => {
-    const { getAllByText, queryByText } = render(<HomeScreen />);
+  it('switches to Admin tab using the first Admin tab button', async () => {
+    const { getAllByText, queryByText } = renderWithProviders(<HomeScreen />);
 
-    expect(queryByText('Brad Pitt')).toBeTruthy();
-    expect(queryByText('Alice Johnson')).toBeTruthy();
+    await waitFor(() => {
+      expect(queryByText('Brad Pitt')).not.toBeNull();
+      expect(queryByText('Alice Johnson')).not.toBeNull();
+    });
 
     fireEvent.press(getAllByText('Admin')[0]);
 
-    expect(queryByText('Brad Pitt')).toBeTruthy();
-    expect(queryByText('Alice Johnson')).toBeNull();
+    await waitFor(() => {
+      expect(queryByText('Brad Pitt')).not.toBeNull();
+      expect(queryByText('Alice Johnson')).toBeNull();
+    });
   });
-  
 });

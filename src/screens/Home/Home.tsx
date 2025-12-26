@@ -29,9 +29,9 @@ export default function HomeScreen() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchText, setSearchText] = useState('');
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-const insets = useSafeAreaInsets();
+  const insets = useSafeAreaInsets();
 
-  const { users, error, addUser, loading } = useZellerUsersDb();
+  const { users, error, addUser, loading, reload } = useZellerUsersDb();
 
   const pagerRef = useRef<PagerView>(null);
 
@@ -88,7 +88,9 @@ const insets = useSafeAreaInsets();
   }, []);
 
   return (
-    <View style={[styles.container, { paddingTop: insets.top - TOP_VISUAL_OFFSET } ]}>
+    <View
+      style={[styles.container, { paddingTop: insets.top - TOP_VISUAL_OFFSET }]}
+    >
       <View testID="home-header" style={styles.tabContainer}>
         {isSearchOpen ? (
           <TextInput
@@ -155,6 +157,7 @@ const insets = useSafeAreaInsets();
               data={getUsersForTab(tab)}
               keyExtractor={keyExtractor}
               refreshing={loading}
+              onRefresh={reload}
               renderItem={renderItem}
               ItemSeparatorComponent={Separator}
               contentContainerStyle={styles.listContent}
