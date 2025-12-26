@@ -1,5 +1,12 @@
 import React, { useCallback, useMemo, useRef, useState } from 'react';
-import { View, Text, TouchableOpacity, FlatList, TextInput, Animated } from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  FlatList,
+  TextInput,
+  Animated,
+} from 'react-native';
 import PagerView from 'react-native-pager-view';
 import { MagnifyingGlassIcon, XMarkIcon } from 'react-native-heroicons/outline';
 import { Modal } from 'react-native';
@@ -130,10 +137,10 @@ export default function HomeScreen() {
       <AnimatedPagerView
         ref={pagerRef}
         initialPage={0}
-        onPageScroll={Animated.event(
-          [{ nativeEvent: { position, offset } }],
-          { useNativeDriver: true },
-        )}
+        style={{ flex: 1 }}
+        onPageScroll={Animated.event([{ nativeEvent: { position, offset } }], {
+          useNativeDriver: true,
+        })}
         onPageSelected={e => {
           const idx = e.nativeEvent.position;
           setActiveTab(TABS[idx] ?? 'All');
@@ -163,11 +170,7 @@ export default function HomeScreen() {
         <Text style={styles.fabPlus}>+</Text>
       </TouchableOpacity>
 
-      <Modal
-        visible={isAddModalOpen}
-        transparent
-        animationType="fade"
-      >
+      <Modal visible={isAddModalOpen} transparent animationType="fade">
         <View style={styles.addFormModalWrapper}>
           <AddUserForm
             onClose={() => setIsAddModalOpen(false)}
