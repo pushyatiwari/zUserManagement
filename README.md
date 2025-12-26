@@ -4,6 +4,16 @@ This is a new [**React Native**](https://reactnative.dev) project, bootstrapped 
 
 > **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
 
+
+## Environment & Tooling
+
+The project was developed and tested with:
+
+- Node.js: v20.x
+- npm: v10.x
+- Xcode: 15+
+- CocoaPods: v1.16.x
+
 ## Step 1: Start Metro
 
 First, you will need to run **Metro**, the JavaScript build tool for React Native.
@@ -88,12 +98,3 @@ To learn more about React Native, take a look at the following resources:
 - [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
 - [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
 
-
-## Environment & Tooling
-
-The project was developed and tested with:
-
-- Node.js: v20.x
-- npm: v10.x
-- Xcode: 15+
-- CocoaPods: v1.16.x
