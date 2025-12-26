@@ -1,0 +1,399 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AddUserForm (no mocking useUserForm) should match snapshot 1`] = `
+<View
+  style={
+    {
+      "backgroundColor": "#fff",
+      "flex": 1,
+      "padding": 20,
+    }
+  }
+>
+  <View
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={true}
+    collapsable={false}
+    focusable={true}
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      {
+        "opacity": Value {
+          "_value": 1,
+          "addListener": [MockFunction],
+          "interpolate": [MockFunction],
+          "removeAllListeners": [MockFunction],
+          "removeListener": [MockFunction],
+          "resetAnimation": [MockFunction],
+          "setValue": [MockFunction],
+          "stopAnimation": [MockFunction],
+        },
+        "width": 30,
+      }
+    }
+  >
+    <Text
+      style={
+        {
+          "color": "#2c6bed",
+          "fontSize": 28,
+        }
+      }
+    >
+      ×
+    </Text>
+  </View>
+  <Text
+    style={
+      {
+        "fontSize": 26,
+        "fontWeight": "700",
+        "marginVertical": 20,
+      }
+    }
+  >
+    New User
+  </Text>
+  <View
+    style={
+      {
+        "marginBottom": 20,
+      }
+    }
+  >
+    <Text
+      style={
+        {
+          "color": "#777",
+          "fontSize": 16,
+          "marginBottom": 6,
+        }
+      }
+    >
+      First Name
+    </Text>
+    <TextInput
+      onChangeText={[Function]}
+      placeholder="First Name"
+      style={
+        [
+          {
+            "borderBottomColor": "#ddd",
+            "borderBottomWidth": 1,
+            "height": 40,
+          },
+          undefined,
+        ]
+      }
+      testID="first_name"
+      value=""
+    />
+  </View>
+  <View
+    style={
+      {
+        "marginBottom": 20,
+      }
+    }
+  >
+    <Text
+      style={
+        {
+          "color": "#777",
+          "fontSize": 16,
+          "marginBottom": 6,
+        }
+      }
+    >
+      Last Name
+    </Text>
+    <TextInput
+      onChangeText={[Function]}
+      placeholder="Last Name"
+      style={
+        [
+          {
+            "borderBottomColor": "#ddd",
+            "borderBottomWidth": 1,
+            "height": 40,
+          },
+          undefined,
+        ]
+      }
+      testID="last_name"
+      value=""
+    />
+  </View>
+  <View
+    style={
+      {
+        "marginBottom": 20,
+      }
+    }
+  >
+    <Text
+      style={
+        {
+          "color": "#777",
+          "fontSize": 16,
+          "marginBottom": 6,
+        }
+      }
+    >
+      Email
+    </Text>
+    <TextInput
+      onChangeText={[Function]}
+      placeholder="Email"
+      style={
+        [
+          {
+            "borderBottomColor": "#ddd",
+            "borderBottomWidth": 1,
+            "height": 40,
+          },
+          undefined,
+        ]
+      }
+      testID="email"
+      value=""
+    />
+  </View>
+  <Text
+    style={
+      {
+        "fontSize": 18,
+        "fontWeight": "600",
+        "marginBottom": 12,
+        "marginTop": 10,
+      }
+    }
+  >
+    User Role
+  </Text>
+  <View
+    style={
+      {
+        "backgroundColor": "#f2f2f2",
+        "borderRadius": 20,
+        "flexDirection": "row",
+        "marginBottom": 30,
+        "padding": 4,
+      }
+    }
+  >
+    <View
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        {
+          "alignItems": "center",
+          "backgroundColor": "#e9f1ff",
+          "borderColor": "#2c6bed",
+          "borderRadius": 20,
+          "borderWidth": 1,
+          "flex": 1,
+          "opacity": Value {
+            "_value": 1,
+            "addListener": [MockFunction],
+            "interpolate": [MockFunction],
+            "removeAllListeners": [MockFunction],
+            "removeListener": [MockFunction],
+            "resetAnimation": [MockFunction],
+            "setValue": [MockFunction],
+            "stopAnimation": [MockFunction],
+          },
+          "paddingVertical": 10,
+        }
+      }
+      testID="admin"
+    >
+      <Text
+        style={
+          [
+            {
+              "color": "#777",
+              "fontWeight": "600",
+            },
+            {
+              "color": "#2c6bed",
+            },
+          ]
+        }
+      >
+        Admin
+      </Text>
+    </View>
+    <View
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        {
+          "alignItems": "center",
+          "borderRadius": 20,
+          "flex": 1,
+          "opacity": Value {
+            "_value": 1,
+            "addListener": [MockFunction],
+            "interpolate": [MockFunction],
+            "removeAllListeners": [MockFunction],
+            "removeListener": [MockFunction],
+            "resetAnimation": [MockFunction],
+            "setValue": [MockFunction],
+            "stopAnimation": [MockFunction],
+          },
+          "paddingVertical": 10,
+        }
+      }
+      testID="manager"
+    >
+      <Text
+        style={
+          [
+            {
+              "color": "#777",
+              "fontWeight": "600",
+            },
+            false,
+          ]
+        }
+      >
+        Manager
+      </Text>
+    </View>
+  </View>
+  <View
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={true}
+    collapsable={false}
+    focusable={true}
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      {
+        "alignItems": "center",
+        "backgroundColor": "#2c6bed",
+        "borderRadius": 25,
+        "height": 50,
+        "justifyContent": "center",
+        "opacity": Value {
+          "_value": 1,
+          "addListener": [MockFunction],
+          "interpolate": [MockFunction],
+          "removeAllListeners": [MockFunction],
+          "removeListener": [MockFunction],
+          "resetAnimation": [MockFunction],
+          "setValue": [MockFunction],
+          "stopAnimation": [MockFunction],
+        },
+      }
+    }
+    testID="create_user"
+  >
+    <Text
+      style={
+        {
+          "color": "#fff",
+          "fontSize": 18,
+          "fontWeight": "700",
+        }
+      }
+    >
+      Create User
+    </Text>
+  </View>
+</View>
+`;
